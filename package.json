@@ -148,6 +148,7 @@
     "yargs": "^3.10.0"
   },
   "scripts": {
+    "build": "npm install",
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www"
   },
