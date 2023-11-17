@@ -1,21 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const env = require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
+"use strict";
 
-// Create a single supabase client for interacting with your database
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_API_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const router = require("express").Router(),
+    usersController = require("../controllers/users");
 
-router.get('/', async (req, res) => {
-  const { data, error } = await supabaseClient.from('users').select('*');
-  
-  if (error) {
-    return res.status(500).json({ error: 'Error fetching data from Supabase' });
-  }
-
-  res.json(data);
-});
+router.get("/", usersController.fetchData);
+// router.post("/", usersController.create);
+// router.put("/:id",usersController.update);
+// router.delete("/:id",usersController.delete);
 
 module.exports = router;
