@@ -6,8 +6,29 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var app = express();
+var loginRouter = require('./routes/login');
+var getUserDataRouter = require('./routes/getUserData');
+var tagWallRouter = require('./routes/tagWall');
+var demoRouter = require('./routes/demo');
 
+var app = express();
+const corsURL = process.env.FRONT_URL;
+const cors = require('cors');
+const corsOptions = {
+  origin: corsURL, 
+  credentials: true, 
+  optionsSuccessStatus: 200 
+}
+
+const bodyParser = require('body-parser');
+
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+app.use(cors(corsOptions));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -20,6 +41,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/getUserData', getUserDataRouter);
+app.use('/tagWall', tagWallRouter);
+app.use('/demo', demoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

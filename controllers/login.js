@@ -29,36 +29,25 @@ module.exports = {
     },
     insertData: async (req, res, next) => {
       try {
-      const { data, error } = await supabase
-        .from('users')
-        .insert(
-        [req.body]
-        )
-        .select();
+      const { data, error:signInError } = await supabase.auth.signInWithPassword({
+        email: req.body.email,
+        password: req.body.password,
+      });
 
-        if (error) {
-          return res.status(500).send(error);
+        if (signInError) {
+          return res.status(500).send(signInError);
         }
   
         if (!data) {
           return res.status(404).send('No data found');
         }
         
-        const {user, session, error:signUpError } = await supabase.auth.signUp({
-          email: req.body.email,
-          password: req.body.password,
-          options: {
-           emailRedirectTo: `${process.env.FRONT_URL}/login`,
-          },
-        });
-        if (signUpError) {
-          return res.status(404).send('Sign up error');
-        }
-          res.send(data);
-          res.send(user);
+        res.send(data);
+        
         }catch (err) {
           console.error(err);
           res.status(500).send('Internal Server Error');
         }
     }
   };
+  
