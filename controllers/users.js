@@ -41,12 +41,12 @@ module.exports = {
           },
         });
         if (signUpError) {
-          return res.status(404).send('Sign ur');
+          return res.status(404).send('Sign up Error');
         }
           res.send(userdata);
         }catch (err) {
           console.error(err);
           res.status(500).send('IntServer Error');
         }
-    } 
+    }
   };
