@@ -13,7 +13,7 @@ module.exports = {
         .from('users')
         .select('*')
         .eq('email',req.body.email);
-
+        console.log("data",req.body.email);
         if (error) {
           return res.status(500).send(error);
         }
